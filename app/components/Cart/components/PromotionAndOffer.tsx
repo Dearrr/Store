@@ -20,7 +20,7 @@ type Props = {};
 
 const PromotionAndOffer = (props: Props) => {
   const [onTopCategory, setOnTopCategory] = useState("");
-  const { discount, cart, setDiscount } = useContext(CartContext);
+  const { discount, cart, setDiscount, calculateTotalAfterCouponDiscount } = useContext(CartContext);
   const handleChangeonTopCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDiscount((prev) => ({ ...prev, onTop: { category: "", amount: null } }));
     setOnTopCategory(event.target.value);
@@ -37,11 +37,12 @@ const PromotionAndOffer = (props: Props) => {
     setDiscount((prev) => ({ ...prev, onTop: { ...prev.onTop, amount: Number(event.target.value) } }));
   };
   const isNumberExceed = (amount: number) => {
-    return Number(amount) > cart.total * (20 / 100);
+    const totalAfterDiscount = calculateTotalAfterCouponDiscount();
+    return Number(amount) > Number(totalAfterDiscount) * (20 / 100);
   };
   const handleChangeDiscountByCustomerPoint = (event: React.ChangeEvent<HTMLInputElement>) => {
     const regex = /^[0-9\b]+$/;
-    if (Number(event.target.value) > cart.totalPayment * (20 / 100)) {
+    if (Number(event.target.value) > Number(calculateTotalAfterCouponDiscount()) * (20 / 100)) {
       return;
     }
     if (event.target.value === "" || regex.test(event.target.value)) {
@@ -103,7 +104,9 @@ const PromotionAndOffer = (props: Props) => {
             <TextField
               helperText={
                 !isNumberExceed(discount.onTop.amount!)
-                  ? `cannot input exceed ${cart.totalPayment * (20 / 100)} (20% of total price)`
+                  ? `cannot input exceed ${
+                      Number(calculateTotalAfterCouponDiscount()) * (20 / 100)
+                    } (20% of total price)`
                   : ""
               }
               type="number"

@@ -15,6 +15,7 @@ interface CartContextInterface {
   increaseAmount: (id: number) => void;
   decreaseAmount: (id: number) => void;
   calculateTotal: (product: Products[]) => void;
+  calculateTotalAfterCouponDiscount: () => void;
   cal: () => void;
 }
 
@@ -39,6 +40,7 @@ const defaultState = {
   increaseAmount: (id: number) => {},
   decreaseAmount: (id: number) => {},
   calculateTotal: (product: Products[]) => {},
+  calculateTotalAfterCouponDiscount: () => {},
   cal: () => {},
 } as CartContextInterface;
 
@@ -113,8 +115,12 @@ export default function CartProvider({ children }: CartProviderProps) {
   const calculateOnTopByCustomerPoint = (amount: number) => {
     return amount;
   };
-  const calculateSpecialCampign = (discount: number, every: number) => {
+  const calculateSpecialCampaign = (discount: number, every: number) => {
     return discount * every;
+  };
+
+  const calculateTotalAfterCouponDiscount = () => {
+    return calculateTotal(cart.cartList) - calculateCoupon(discount.coupon.amount);
   };
 
   const calculateTotal = (product: Products[]) => {
@@ -132,23 +138,24 @@ export default function CartProvider({ children }: CartProviderProps) {
       if (discount.onTop.category !== "") {
         onTopDisCount = calculateOntopByCategory(discount.onTop.category, discount.onTop.amount);
         total = total - onTopDisCount;
-        setCart((prev) => ({ ...prev, totalPayment: total }));
       } else {
         onTopDisCount = calculateOnTopByCustomerPoint(discount.onTop.amount);
         total = total - onTopDisCount;
-        setCart((prev) => ({ ...prev, totalPayment: total }));
       }
     }
 
     let specialCampaignDiscount = 0;
     if (discount.specialCampaign.discount) {
-      specialCampaignDiscount = calculateSpecialCampign(
+      specialCampaignDiscount = calculateSpecialCampaign(
         discount.specialCampaign.discount,
         Math.floor(total / discount.specialCampaign.amount)
       );
     }
 
     total = total - specialCampaignDiscount;
+    if (total < 0) {
+      total = 0;
+    }
     setCart((prev) => ({ ...prev, totalPayment: total }));
   };
 
@@ -159,7 +166,18 @@ export default function CartProvider({ children }: CartProviderProps) {
 
   return (
     <CartContext.Provider
-      value={{ cart, discount, setDiscount, setCart, addToCart, increaseAmount, decreaseAmount, calculateTotal, cal }}
+      value={{
+        cart,
+        discount,
+        setDiscount,
+        setCart,
+        addToCart,
+        increaseAmount,
+        decreaseAmount,
+        calculateTotal,
+        calculateTotalAfterCouponDiscount,
+        cal,
+      }}
     >
       {children}
     </CartContext.Provider>
