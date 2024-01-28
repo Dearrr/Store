@@ -1,3 +1,4 @@
+"use client"
 import { CartContext } from "@/app/context/CartContext";
 import {
   Card,
@@ -11,7 +12,7 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
+} from "@mui/material/index";
 import React, { useContext, useState } from "react";
 import { couponDiscountList, onTopDiscountList } from "@/app/Store/Discount";
 import { CouponDiscountListType, OnTopDiscountListType } from "@/app/Type/DiscountType";

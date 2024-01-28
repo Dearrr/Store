@@ -1,19 +1,22 @@
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material/index";
 import Product from "./components/Product";
 import Cart from "./components/Cart";
 import CartProvider from "./context/CartContext";
 
+import Link from "next/link";
+
 export default function Home() {
   return (
-    <CartProvider>
-      <Box height={'100%'} width={'100vw'} sx={{ background: "#ECEAF9" }}>
-        <Container>
-          <Stack gap={3}>
+    <Box height={"100%"} width={"100vw"} sx={{ background: "#ECEAF9" }}>
+      <Container>
+        <Stack gap={3}>
+          <CartProvider>
             <Product />
             <Cart />
-          </Stack>
-        </Container>
-      </Box>
-    </CartProvider>
+            <Link href={'/test'}>Link</Link>
+          </CartProvider>
+        </Stack>
+      </Container>
+    </Box>
   );
 }

@@ -1,6 +1,6 @@
-"use client";
+"use client"
 import { CartContext } from "@/app/context/CartContext";
-import { Button, Card, Stack, Typography } from "@mui/material";
+import { Button, Card, Stack, Typography } from "@mui/material/index";
 import React, { useContext } from "react";
 import CartItem from "./components/CartItem";
 import PromotionAndOffer from "./components/PromotionAndOffer";
