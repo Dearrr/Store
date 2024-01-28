@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getProduct = async () => {
   try {
-    const response = await axios.get("https://store-and-cart-fxgdh2dva-dearrrs-projects.vercel.app/api/products");
+    const response = await axios.get("http://localhost:3000/api/products");
     return response.data;
   } catch (error) {
     console.log(error);
