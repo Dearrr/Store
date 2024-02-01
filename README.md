@@ -1,6 +1,6 @@
 
 
-Website for practice my skill. It was created by React with MUI. This website create have store and cart for order product.
+Website for practice my skill. It was created by NextJs with MUI. This website create have store and cart for order product.
 In progress, i am providing api for this.
 
 ## Getting Started
