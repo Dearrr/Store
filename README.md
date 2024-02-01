@@ -1,4 +1,7 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+
+Website for practice my skill. It was created by React with MUI. This website create have store and cart for order product.
+In progress, i am providing api for this.
 
 ## Getting Started
 
